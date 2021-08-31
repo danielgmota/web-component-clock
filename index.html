@@ -1,31 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Relogio</title>
-</head>
-<body>
-    <wc-relogio tipo="analogico"></wc-relogio>
-
     <script>
-        class WcRelogio extends HTMLElement{
-            constructor(){
-                super();
+      class WcRelogio extends HTMLElement {
+        static observedAttributes = ["value"];
 
-                this.attachShadow({
-                    mode: "open"
-                });
-            }
-            
-            connectedCallback(){
-                const value = this.getAttribute("tipo");
-                this.shadowRoot.append(value);
-            }
+        constructor() {
+          super();
+          this.attachShadow({
+            mode: "open",
+          });
+          const tpl = document.getElementById("tpl-relogio");
+          this.shadowRoot.append(tpl.content.cloneNode(true));
         }
 
-        customElements.define("wc-relogio",WcRelogio);
+        connectedCallback() {
+          const value = this.getAttribute("tipo");
+          this.shadowRoot.append(value);
+        }
+
+        attributeChangedCallback() {
+          const value = this.getAttribute("tipo");
+          this.shadowRoot.append(value);
+        }
+      }
+
+      customElements.define("wc-relogio", WcRelogio);
     </script>
-</body>
+  </head>
+  <body>
+    <template id="tpl-relogio">
+      <style>
+        :host {
+          display: inline-block;
+        }
+      </style>
+      <svg width="100" height="100">
+        <g transform="translate(50,50)">
+          <circle
+            cx="0"
+            cy="0"
+            r="45"
+            fill="none"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            id="seconds"
+            transform="rotate(35)"
+            d="M 0 0 V 0 -40"
+            fill="none"
+            stroke="black"
+            stroke-width="1"
+          />
+          <path
+            id="hour"
+            transform="rotate(110)"
+            d="M 0 0 V 0 -40"
+            fill="none"
+            stroke="black"
+            stroke-width="3"
+          />
+          <path
+            id="minutes"
+            transform="rotate(70)"
+            d="M 0 0 V 0 -40"
+            fill="none"
+            stroke="red"
+            stroke-width="2"
+          />
+
+          <g id="pointers" fill="none" stroke="black" stroke-width="2">
+            <path d="M 0 -40 V -45" transform="rotate(0)" />
+            <path d="M 0 -40 V -45" transform="rotate(30)" />
+            <path d="M 0 -40 V -45" transform="rotate(-30)" />
+            <path d="M 0 -40 V -45" transform="rotate(60)" />
+            <path d="M 0 -40 V -45" transform="rotate(-60)" />
+            <path d="M 0 -40 V -45" transform="rotate(90)" />
+            <path d="M 0 -40 V -45" transform="rotate(-90)" />
+            <path d="M 0 -40 V -45" transform="rotate(120)" />
+            <path d="M 0 -40 V -45" transform="rotate(-120)" />
+            <path d="M 0 -40 V -45" transform="rotate(150)" />
+            <path d="M 0 -40 V -45" transform="rotate(-150)" />
+            <path d="M 0 -40 V -45" transform="rotate(180)" />
+          </g>
+        </g>
+      </svg>
+    </template>
+
+    <wc-relogio tipo="analogico"></wc-relogio>
+  </body>
 </html>
